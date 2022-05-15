@@ -23,6 +23,7 @@ train_loader=load_cifar10()
 model=Net()
 num_epoch=10
 optimizer = optim.Adam(model.parameters(), lr=0.01)
+losses=[]
 
 for epoch in range(num_epoch):
     for images, labels in tqdm(train_loader):
@@ -31,3 +32,6 @@ for epoch in range(num_epoch):
         loss=criterion(embeddings, labels)
         loss.backward()
         optimizer.step()
+        losses.append(loss)
+
+    print(torch.mean(torch.stack(losses)))
