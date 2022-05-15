@@ -15,7 +15,7 @@ class TripletLossh(nn.Module):
     入力に特徴量とクラスラベルを要求
     """
 
-    def __init__(self,margin_alpha=3.0,margin_beta=0.5):
+    def __init__(self,margin_alpha=3.0,margin_beta=0.01):
         super(TripletLossh,self).__init__()
         self.alpha=margin_alpha
         self.beta=margin_beta
