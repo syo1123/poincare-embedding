@@ -21,13 +21,15 @@ class TripletLossh(nn.Module):
         self.beta=margin_beta
     def forward(self,features,labels):
 
-        loss=self.triplet(features,labels)
+        loss, loss_t, loss_n=self.triplet(features,labels)
 
-        return torch.mean(loss)
+        return torch.mean(loss), torch.mean(loss_t), torch.mean(loss_n)
 
 
     def triplet(self, features , labels):
         losses=[]
+        losses_t=[]
+        losses_n=[]
         for feature, label in zip(features, labels):
 
             T=features[labels==label]
@@ -47,8 +49,10 @@ class TripletLossh(nn.Module):
             loss_n=torch.clamp(dist_t-dist_n+self.alpha,min=0.0)
             loss=torch.mean(loss_p+loss_n)
             losses.append(loss)
+            losses_t.append(loss_p)
+            losses_n.append(loss_n)
 
-        return torch.stack(losses)
+        return torch.stack(losses), torch.stack(losses_t), torch.stack(losses_n)
 
 
 class HyperbolicMLR(nn.Module):

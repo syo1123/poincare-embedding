@@ -26,12 +26,18 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 for epoch in range(num_epoch):
     losses=[]
+    losses_t=[]
+    losses_n=[]
     for images, labels in tqdm(train_loader):
         optimizer.zero_grad()
         embeddings = model(images)
-        loss=criterion(embeddings, labels)
+        loss, loss_t, loss_n=criterion(embeddings, labels)
         loss.backward()
         optimizer.step()
         losses.append(loss)
+        losses_t.append(loss_t)
+        losses_n.append(loss_n)
 
     print(torch.mean(torch.stack(losses)))
+    print(torch.mean(torch.stack(losses_t)))
+    print(torch.mean(torch.stack(losses_n)))
