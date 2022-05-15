@@ -49,8 +49,8 @@ class TripletLossh(nn.Module):
             loss_n=torch.clamp(dist_t-dist_n+self.alpha,min=0.0)
             loss=torch.mean(loss_p+loss_n)
             losses.append(loss)
-            losses_t.append(loss_p)
-            losses_n.append(loss_n)
+            losses_t.append(dist_t)
+            losses_n.append(dist_n)
 
         return torch.stack(losses), torch.stack(losses_t), torch.stack(losses_n)
 
