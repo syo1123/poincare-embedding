@@ -21,7 +21,7 @@ import torch.optim as optim
 criterion=hypnn.TripletLossh()
 train_loader=load_cifar10()
 model=Net()
-num_epoch=10
+num_epoch=30
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 losses=[]
 
