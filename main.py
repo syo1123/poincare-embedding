@@ -23,9 +23,9 @@ train_loader=load_cifar10()
 model=Net()
 num_epoch=30
 optimizer = optim.Adam(model.parameters(), lr=0.001)
-losses=[]
 
 for epoch in range(num_epoch):
+    losses=[]
     for images, labels in tqdm(train_loader):
         optimizer.zero_grad()
         embeddings = model(images)
