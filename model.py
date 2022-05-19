@@ -1,5 +1,8 @@
 from __future__ import print_function
 
+
+from __future__ import print_function
+
 import argparse
 
 import torch
@@ -15,14 +18,14 @@ from pytorch_metric_learning.distances import CosineSimilarity
 
 
 class Net(nn.Module):
-    def __init__(self):
+    def __init__(self, dim=10):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 20, 7, 1)
-        self.conv2 = nn.Conv2d(20, 50, 5, 1)
-        self.fc1 = nn.Linear(4 * 4 * 50, 500)
-        self.fc2 = nn.Linear(500, 2)
+        self.conv1 = nn.Conv2d(3, 50, 10, 1)
+        self.conv2 = nn.Conv2d(50, 50, 10, 1)
+        self.fc1 = nn.Linear(1 * 1 * 50, 50)
+        self.fc2 = nn.Linear(50, dim)
         self.tp = hypnn.ToPoincare(
-            c=1, train_x=False, train_c=False, ball_dim=2
+            c=1, train_x=False, train_c=False, ball_dim=dim
         )
 
     def forward(self, x):
@@ -30,7 +33,7 @@ class Net(nn.Module):
         x = F.max_pool2d(x, 2, 2)
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(x, 2, 2)
-        x = x.view(-1, 4 * 4 * 50)
+        x = x.view(-1, 1* 1 * 50)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         x = self.tp(x)
